@@ -1,0 +1,109 @@
+/* CustomerInterface.css */
+
+.main-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Left panel: Vendor List */
+.vendor-list-section {
+  width: 50%;
+  overflow-y: auto;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.input-field {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.vendor-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.vendor-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+/* Right panel: Map Section */
+.map-section {
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.map-search {
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ccc;
+}
+
+.map-container {
+  height: calc(100% - 40px);
+  width: 100%;
+}
+
+/* Button to view products */
+.view-products-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Popup Modal for Products & Ratings */
+.products-popup {
+  position: fixed;
+  z-index: 9999; /* Ensure it appears above the map */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid blue;
+  border-radius: 10px;
+  padding: 20px;
+  width: 40%;
+  max-height: 70%;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Chat Modal */
+.chat-modal {
+  position: fixed;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+
+/* Close Button for Popups/Modals */
+.close-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Lower the Leaflet map container's stacking context */
+.leaflet-container {
+  z-index: 0;
+}

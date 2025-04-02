@@ -1,0 +1,97 @@
+/* VendorInterface.css */
+
+/* Container */
+.vendor-container {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.vendor-container:hover {
+  background-color: #f9f9f9; /* Slight change on hover */
+}
+
+/* Product Form */
+.product-form {
+  margin-bottom: 20px;
+}
+
+.product-form input {
+  padding: 8px;
+  margin: 5px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.product-form input:focus {
+  outline: none;
+  border: 1px solid crimson;
+  box-shadow: 0 0 5px rgba(220, 20, 60, 0.3);
+}
+
+.product-form button {
+  background-color: crimson;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-form button:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+/* 
+  TABLE LAYOUT FOR PRODUCTS
+  This replaces the old .product-list & .product-item styles
+*/
+
+/* Container for centering the table */
+.table-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%; /* Takes full width so the table can be centered */
+}
+
+/* Responsive, centered table */
+.product-table {
+  border-collapse: collapse;
+  width: 90%;         /* Table uses 90% of the container width */
+  max-width: 900px;   /* Optional max width for larger screens */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-table thead {
+  background-color: #f2f2f2;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
