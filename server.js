@@ -639,20 +639,48 @@ app.post("/api/ratings", async (req, res) => {
 });
 
 // --- Gemini API Endpoint ---
+
 app.post("/api/gemini", async (req, res) => {
   try {
+    const { prompt: userQuery, vendorId } = req.body;
+    if (!vendorId) {
+      return res.status(400).json({ error: "Missing vendorId" });
+    }
+
+    // Fetch only this vendor’s data
+    const [ vendor, products, transactions, ratings ] = await Promise.all([
+      Vendor.findById(vendorId).lean(),
+      Product.find({ vendorId }).lean(),
+      Transaction.find({ vendorId }).lean(),
+      Rating.find({ vendorId }).lean()
+    ]);
+
+    // If you want to include only the customers who've interacted:
+    const customerIds = ratings.map(r => r.customerId);
+    const customers = await Customer.find({ _id: { $in: customerIds } }).lean();
+
+    const context = { vendor, customers, products, transactions, ratings };
+
+    // Build the prompt with just this vendor’s data
+    const fullPrompt = 
+      `You are a vendor assistant. Here is your data:\n` +
+      `${JSON.stringify(context)}\n\n` +
+      `Answer the query: ${userQuery}`;
+
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const prompt = req.body.prompt;
-    const result = await model.generateContent(prompt);
+    const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const text = response.text();
+
     res.json({ response: text });
   } catch (error) {
     console.error("Gemini API error:", error);
     res.status(500).json({ error: "Failed to generate response." });
   }
 });
+
+
 
 // --- Chat Endpoints ---
 
