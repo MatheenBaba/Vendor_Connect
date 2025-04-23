@@ -298,33 +298,47 @@ const VendorInterface = ({ socket }) => {
   }, [socket]);
 
   // ----- Gemini AI Chatbot Functions -----
-  const handleChatbotInputChange = (e) => {
-    setChatbotUserInput(e.target.value);
-  };
+  // inside VendorInterface.js (or wherever your chatbot lives)
 
-  const handleChatbotSubmit = async (e) => {
-    e.preventDefault();
-    if (!chatbotUserInput.trim()) return;
+const handleChatbotInputChange = (e) => {
+  setChatbotUserInput(e.target.value);
+};
 
-    setChatbotMessages((prev) => [...prev, { text: chatbotUserInput, sender: "user" }]);
-    const query = chatbotUserInput;
-    setChatbotUserInput("");
+const handleChatbotSubmit = async (e) => {
+  e.preventDefault();
+  const question = chatbotUserInput.trim();
+  if (!question) return;
 
-    try {
-      const vendorData = (await axios.get("http://localhost:5000/api/vendors")).data;
-      const prompt = `You are a vendor assistant. Respond to vendor queries based on: ${JSON.stringify(
-        vendorData
-      )}. Query: ${query}`;
-      const res = await axios.post("http://localhost:5000/api/gemini", { prompt });
-      setChatbotMessages((prev) => [...prev, { text: res.data.response, sender: "bot" }]);
-    } catch (err) {
-      console.error("Gemini error:", err);
-      setChatbotMessages((prev) => [
-        ...prev,
-        { text: "Error getting AI response", sender: "bot" },
-      ]);
-    }
-  };
+  // show the user’s own question in the chat UI
+  setChatbotMessages((prev) => [
+    ...prev,
+    { text: question, sender: "user" },
+  ]);
+  setChatbotUserInput("");
+
+  try {
+    // grab the current vendor’s ID from localStorage (set at login)
+    const vendorId = localStorage.getItem("vendorId");
+    if (!vendorId) throw new Error("Vendor not logged in");
+
+    // send only the prompt + vendorId
+    const { data } = await axios.post(
+      "http://localhost:5000/api/gemini",
+      { prompt: question, vendorId }
+    );
+
+    setChatbotMessages((prev) => [
+      ...prev,
+      { text: data.response, sender: "bot" },
+    ]);
+  } catch (err) {
+    console.error("Gemini error:", err);
+    setChatbotMessages((prev) => [
+      ...prev,
+      { text: "Error getting AI response", sender: "bot" },
+    ]);
+  }
+};
 
   return (
     <div className="vendor-container">
